@@ -217,12 +217,12 @@ Goal: ship for all three, mirroring InventorLab's proven multi-tool structure.
 
 | Capability | Claude Code | Cursor | Codex |
 |---|---|---|---|
-| Instruction surface | `CLAUDE.md` + plugin | `.cursor/rules/*.mdc` (Always) | `AGENTS.md` |
-| Automatic write-path | ✅ `Stop` hook (`decision:block`) | ✅ `stop` hook (`followup_message`) — *verified + wired* | ⚠️ instructed only |
+| Instruction surface | `CLAUDE.md` + plugin | `.cursor/rules/*.mdc` (Always) | `AGENTS.md` (native) |
+| Automatic write-path | ✅ `Stop` hook (`decision:block`) | ✅ `stop` hook (`followup_message`) | ✅ `Stop` hook (`decision:block`) |
 | `/briefing`, `/sync` commands | ✅ Skills / slash commands | ✅ Skills (shared `skills/`) | ✅ Skills (by name/description) |
-| Fidelity | **reference (full)** | **near-full** (enforced backstop + skills) | instructed (no backstop) |
+| Fidelity | **full** (reference) | **full** | **full** |
 
-Claude Code is the reference implementation. **Cursor reaches near-full fidelity** — its `stop` hook returns `followup_message` (auto-submitted as the next user message), the deterministic equivalent of Claude's `decision:block`, so the safety net is real there too (loop-safe via `loop_count` + `loop_limit`). Only **Codex** is instructed-only (no stop-hook equivalent): the model is told to maintain the docs via `AGENTS.md`, which works but relies on instruction-following rather than a deterministic hook.
+**All three tools reach full fidelity** — each has a deterministic stop-hook backstop plus the shared skills. The mechanism differs only in wire format: Claude Code and **Codex** both use `decision:block` + `reason` (Codex hooks mirror Claude's contract — same PascalCase events, JSON stdin, `${PLUGIN_ROOT}` paths), so Codex reuses the Claude scripts unmodified; **Cursor** uses `stop` → `followup_message`. The shared git gate (`scripts/lib/changes.js`) and the same `AGENTS.md` instruction layer back all three. *(Codex Stop is loop-safe via the docs-touched gate even without a `stop_hook_active` flag; confirm exact Codex Stop input fields in a live Codex run.)*
 
 **Silver lining (on-brand):** the artifact — the two docs + Lexicon — is **100% portable** regardless of tool (plain markdown in the repo). Switch tools and your Vibe Scribe context comes with you. Not-lock-in extends to the tooling itself.
 
@@ -252,7 +252,7 @@ vibe-scribe/
 
 **Simpler than InventorLab:** no MCP server (Vibe Scribe is docs + skills; no external tool calls). **Vibe-Scribe-specific upgrade:** InventorLab's Claude hook is `SessionStart` (firstrun); Vibe Scribe adds a **`Stop` hook** — the thing that makes the write-path automatic.
 
-*Build order: Claude Code reference ✅ → Cursor adapter ✅ (stop-hook backstop verified against Cursor docs + tested; shared git gate in `scripts/lib/changes.js`) → Codex adapter (instruction-only) remaining.*
+*Build order: Claude Code reference ✅ → Cursor adapter ✅ → Codex adapter ✅ (all three verified against their docs + tested; shared git gate in `scripts/lib/changes.js`). All tools full-fidelity. Remaining: README, prior-art/provenance pass before any public push, MVP cut, and live end-to-end tests inside each host.*
 
 ## Provenance & IP note
 
