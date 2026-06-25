@@ -22,6 +22,10 @@ It's not a beginner tool. The gap between *code that exists* and *understanding 
 
 Claude Code · OpenAI Codex · Cursor — one shared core, thin per-tool adapters. The docs it produces are tool-agnostic markdown, so your context comes with you even if you switch.
 
+**Validation status (honest):**
+- **Claude Code** — reference implementation; the most exercised.
+- **OpenAI Codex · Cursor** — wired per each tool's published hooks API and modeled on a proven plugin pattern, but the safety-net hook hasn't been run live in-host yet. Everything fails open, and `.vibe-scribe.json` (`nudge` / `off`) is the escape hatch if anything misbehaves.
+
 ## Status
 
 🚧 **Early.** Designed and built across all three tools — the setup flow, the safety net, and the `/briefing` + `/sync` skills are implemented and unit-tested. Still to come: live end-to-end tests inside each host, and a v0.1 release cut. See [`DESIGN.md`](./DESIGN.md) for the full design and rationale.

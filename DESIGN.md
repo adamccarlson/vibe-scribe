@@ -222,14 +222,16 @@ before tagging.
 - **Mermaid stored-format / diagrams-as-data** — declined for now (see Visual aids).
 - **Naming-first design-surface** — speculative future direction.
 
-**Release gate — the one real blocker before tagging v0.1:**
-- **Live in-host smoke test in each of the three tools.** Every script is unit-tested in isolation, but
-  the hook wiring has never run inside an actual Claude Code / Cursor / Codex session. The safety net
-  injects into the agent loop, so it must be validated live before release. Until it is, treat the
-  backstop as **experimental** — `.vibe-scribe.json` (`nudge` / `off`) is the escape hatch.
-- *Decided (2026-06-24):* enforcement default stays **`block`** — it's the headline "automatic" value, and
-  shipping `nudge` would undersell it. The unproven-hook risk is handled by the **release gate** (don't tag
-  v0.1 until live tests pass), not by weakening the default. Users can still dial down per-project.
+**Release gate — live in-host tests: *waived for v0.1* (decided 2026-06-24).**
+- Live smoke tests in each host are **skipped** for v0.1. Claude Code is the reference (most exercised).
+  Codex and Cursor are wired per each tool's published hooks API and a proven plugin pattern, but their
+  safety-net hook (`Stop` / `stop`) hasn't run live in-host. (Note: InventorLab validates Codex's
+  manifest / skills / `SessionStart` — but it has **no `Stop` hook**, so our Codex backstop is new and
+  unverified live.) Risk is bounded: every script is **fail-open** and `.vibe-scribe.json` (`nudge` / `off`)
+  disables the backstop. **Validation status is documented in the README** instead of gating the release.
+- *Decided (2026-06-24):* enforcement default stays **`block`** — the headline "automatic" value; shipping
+  `nudge` would undersell it. The unproven-hook risk is carried by fail-open + the off-switch + the
+  documented status (not by weakening the default). Users can still dial down per-project.
 
 ---
 
