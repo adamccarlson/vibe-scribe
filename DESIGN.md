@@ -198,14 +198,38 @@ Every fixed bug becomes a runbook entry; the docs compound — after a while the
 - [ ] What the empty scaffolds look like (journal + overview + Lexicon templates).
 - [ ] MVP scope (proposed below).
 
-## Proposed v1 / MVP
+## v0.1 — MVP cut
 
-Smallest shippable slice:
-1. The two doc templates + the Lexicon scaffold.
-2. The always-on write-path protocol (maintain journal + overview as a side-effect of work).
-3. `/briefing` (human-first, on-demand to start; "earned" auto-trigger as a fast-follow).
+What got built has outgrown the original "smallest slice" — `/sync`, tombstones, and the full briefing
+modes all landed. So the v0.1 cut is about what *ships enabled* vs. what's *deferred*, plus the one gate
+before tagging.
 
-Defer: `/sync` audit, tombstone tooling, scoped/bug-context briefing modes, bug→runbook capture.
+**In v0.1 (built + shipping):**
+- The two living docs + the **Lexicon** (handles, anchors, tombstones) + the four-type **ASCII diagram
+  repertoire** with labeled relationship edges.
+- **`/vibe-scribe-setup`** — activate the project and seed the map from existing code.
+- **Write-path safety net** — instruction-primary on all three tools, plus the deterministic stop-hook
+  backstop (Claude `decision:block`, Cursor `followup_message`, Codex `decision:block`), with the
+  `.vibe-scribe.json` enforcement knob (`block` / `nudge` / `off`).
+- **`/briefing`** — all four modes (whole-system, scoped, what-changed, bug-context), on-demand, lean-visual.
+- **`/sync`** — map-vs-code audit.
+- **All three hosts** (Claude Code, Cursor, Codex) from one shared core.
+
+**Deferred (post-v0.1):**
+- **Earned / auto-triggered briefing** — the session-start proactive nudge (currently a stub; in v0.1
+  `/briefing` is on-demand only).
+- **bug → runbook auto-capture** — not built.
+- **Mermaid stored-format / diagrams-as-data** — declined for now (see Visual aids).
+- **Naming-first design-surface** — speculative future direction.
+
+**Release gate — the one real blocker before tagging v0.1:**
+- **Live in-host smoke test in each of the three tools.** Every script is unit-tested in isolation, but
+  the hook wiring has never run inside an actual Claude Code / Cursor / Codex session. The safety net
+  injects into the agent loop, so it must be validated live before release. Until it is, treat the
+  backstop as **experimental** — `.vibe-scribe.json` (`nudge` / `off`) is the escape hatch.
+- *Decided (2026-06-24):* enforcement default stays **`block`** — it's the headline "automatic" value, and
+  shipping `nudge` would undersell it. The unproven-hook risk is handled by the **release gate** (don't tag
+  v0.1 until live tests pass), not by weakening the default. Users can still dial down per-project.
 
 ---
 
