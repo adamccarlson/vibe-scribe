@@ -1,0 +1,9 @@
+{
+  "name": "vibe-scribe",
+  "version": "0.1.0",
+  "description": "Living project memory for Claude Code — a self-maintaining dev journal + system overview so you never lose your place. After installing, run /vibe-scribe-setup to configure your project.",
+  "author": {
+    "name": "Adam Carlson",
+    "email": "me@adamcarlson.io"
+  }
+}

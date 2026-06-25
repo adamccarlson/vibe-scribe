@@ -1,0 +1,4 @@
+{
+  "//": "Cursor hook registrations. STUB — Cursor's hook surface differs from Claude Code's; the always-on write-path is carried by .cursor/rules/vibe-scribe.mdc (instruction-based) rather than a Stop hook. Decide whether any Cursor hook is needed during the Cursor adapter build.",
+  "hooks": {}
+}

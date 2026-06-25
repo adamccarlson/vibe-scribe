@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "vibe-scribe",
+  "description": "Vibe Scribe — living project memory for Claude Code. Never lose your place.",
+  "owner": {
+    "name": "Adam Carlson"
+  },
+  "plugins": [
+    {
+      "name": "vibe-scribe",
+      "description": "A self-maintaining dev journal + system overview that keeps your project's understanding in the repo — readable by you and any AI, across every session and tool.",
+      "author": {
+        "name": "Adam Carlson"
+      },
+      "category": "development",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/adam-inventorlab/vibe-scribe.git"
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "vibe-scribe",
+  "version": "0.1.0",
+  "description": "Living project memory for Cursor — a self-maintaining dev journal + system overview so you never lose your place. After installing, run /vibe-scribe-setup (or describe what you want) to configure your project.",
+  "author": {
+    "name": "Adam Carlson",
+    "email": "me@adamcarlson.io"
+  },
+  "homepage": "https://github.com/adam-inventorlab/vibe-scribe",
+  "repository": "https://github.com/adam-inventorlab/vibe-scribe",
+  "license": "MIT",
+  "keywords": [
+    "agent-memory",
+    "dev-journal",
+    "documentation",
+    "context",
+    "onboarding"
+  ],
+  "skills": "./skills/",
+  "rules": "./.cursor/rules/",
+  "hooks": "./.cursor/hooks.json"
+}

@@ -1,0 +1,31 @@
+---
+description: Vibe Scribe is active in this project. Keep the living docs (dev-journal.md + system-overview.md) current as a side effect of work, and treat them as authoritative project state. Same skills as Claude Code and Codex.
+alwaysApply: true
+---
+
+# Vibe Scribe — always-on context
+
+Vibe Scribe is configured for this project. The canonical instructions live in `@AGENTS.md` —
+treat that as the always-on behavioral layer and re-load it each turn. (Cursor lacks a literal
+"background skill" concept, so this always-applied rule is how the protocol stays active here.)
+
+## Living documents (authoritative project state)
+
+- `@dev-journal.md` — the **log**: append-only history of what changed and *why*. Add a dated entry
+  at the end of a chunk of work that made a real system change; never edit past entries.
+- `@system-overview.md` — the **map**: current state (component catalog, dependency map, runbook,
+  and the **Lexicon** of coined handles). Revise in place; refresh `Last verified` dates.
+
+Keep them distinct: journal = the delta + why; overview = the resulting state. Don't duplicate.
+Refer to components by their canonical Lexicon handles.
+
+## Skills
+
+`/briefing` and `/sync` behave identically to their Claude Code / Codex counterparts. Invoke with
+`/skill-name` or by describing what you want.
+
+## Cross-vendor compatibility
+
+Ships from a single source for Claude Code, OpenAI Codex, and Cursor. The same `skills/` directory
+and the same `AGENTS.md` protocol apply across all three. The only platform-specific files are the
+per-host plugin manifests and this Cursor-specific always-on rule.

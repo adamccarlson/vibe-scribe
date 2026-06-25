@@ -1,0 +1,11 @@
+{
+  "name": "vibe-scribe",
+  "version": "0.1.0",
+  "description": "Living project memory for Codex — a self-maintaining dev journal + system overview so you never lose your place. After installing, run $vibe-scribe:vibe-scribe-setup (or just describe what you want) to configure your project.",
+  "author": {
+    "name": "Adam Carlson",
+    "email": "me@adamcarlson.io"
+  },
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json"
+}

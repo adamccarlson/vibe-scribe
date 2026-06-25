@@ -1,0 +1,38 @@
+{
+  "name": "vibe-scribe",
+  "version": "0.1.0",
+  "description": "Living project memory for AI-assisted coding — an auto-maintained dev journal + system overview so you never lose your place. One source for Claude Code, Codex, and Cursor.",
+  "keywords": [
+    "claude-code-plugin",
+    "codex",
+    "cursor",
+    "agent-memory",
+    "dev-journal",
+    "documentation",
+    "context",
+    "onboarding"
+  ],
+  "author": {
+    "name": "Adam Carlson",
+    "email": "me@adamcarlson.io"
+  },
+  "license": "MIT",
+  "claude": {
+    "skills": "skills"
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js"
+  },
+  "files": [
+    ".claude-plugin/",
+    ".codex-plugin/",
+    ".cursor-plugin/",
+    ".cursor/",
+    "skills/",
+    "templates/",
+    "hooks/",
+    "scripts/",
+    "PROTOCOL.md",
+    "postinstall.js"
+  ]
+}

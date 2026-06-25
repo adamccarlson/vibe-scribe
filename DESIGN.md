@@ -147,6 +147,24 @@ Every fixed bug becomes a runbook entry; the docs compound — after a while the
 
 ---
 
+## Visual aids — diagrams
+
+**Decided (Adam, 2026-06-24): ASCII-only.** Text-native diagrams stay diffable, greppable, AI-readable, and in-repo (a PNG breaks all of that), and ASCII additionally renders *anywhere* — bare terminal, SSH, remote session — with zero tooling. Simplicity over capability for v1.
+
+**Diagram repertoire — pick the right one for the question (a repertoire, not a checklist; don't generate all four for everything). Workhorses for MVP are (1) and (2); (3) and (4) are situational.**
+1. **Structure / topology** — what's wired to what (component dependency). Answers *"what breaks if X is down."* (the Gatekeeper → Concierge → Vault map.)
+2. **Logic / flow (flowcharts)** — control flow *through* a method/process: steps, decisions (diamonds), branches, loops. Answers *"what happens when this runs, and why it took this path."* Often the **more debugging-relevant** kind — bugs live in logic, not wiring. ASCII handles decision diamonds + labeled (yes/no) branches well. Especially valuable in the **journal** for capturing the *why* of non-obvious logic.
+3. **Swimlane** — a process partitioned by *actor/owner* (each lane = a component/system, often a Lexicon handle), showing **handoffs** between them. Answers *"who does what, in what order."* Handoffs are exactly where multi-component bugs and false assumptions hide. ASCII caveat: true lanes **sprawl past ~3–4 actors / a handful of steps** — when they get tight, fall back to an **owner-annotated flow** (`[Gatekeeper] auth → [Concierge] orchestrate → [Vault] fetch`), which carries the handoff info without the grid.
+4. **Conceptual framework** — a mixed-concern big-picture map that blends **architecture + logic + hardware/infra**. Answers *"what's the fundamental shape."* This is the **front-door / orientation** diagram (top of `system-overview`), and the natural place **hardware finally enters** (the box it runs on, ports, external services). Caveat: it's the **least mechanically verifiable** of the four (impressionistic by nature → most prone to hand-wavy drift) — use **sparingly**, treat it as the system's *constitution* (revisited when the fundamental shape changes), not its *minutes* (every commit).
+
+**Discipline for logic diagrams:** diagram **selectively** — only non-obvious / complex control flow (gnarly branching, decision trees, state machines), never trivial linear methods (that's noise). And logic diagrams **drift faster than topology** (logic changes more than wiring), so `Last verified` matters more — re-verify a method's flowchart when debugging its logic (it doubles as a debugging aid and gets refreshed during the fix).
+
+- **Diagram + explanation, always paired.** The ASCII diagram shows *topology* (what connects to what); a short plain-language walk-through provides *function* (what each box does and how data flows). Structure + meaning. The boxes **are Lexicon handles**, so the walk-through reuses each handle's plain definition — *"a request enters via the Gatekeeper (auth), which hands off to the Concierge (orchestration)…"*. Never a bare diagram.
+- **Surfaced via `/briefing`**, stored in `system-overview.md`.
+- **Complexity ceiling — scope, don't cram.** ASCII goes spaghetti past ~a dozen boxes. When a system outgrows one diagram, split into several **scoped** diagrams (a top-level map of named subsystems, then one per subsystem) rather than a single unreadable graph. `/briefing <component>` maps naturally to per-subsystem diagrams.
+- **Keep it text-native** — no render pipeline (the patent-figure JSON/editor machinery does *not* belong here). Plain markdown is the ethos.
+- *Deferred, not rejected:* Mermaid-as-stored-format + diagrams-as-dependency-data. Considered and set aside for simplicity; revisit if systems routinely outgrow ASCII or if machine-parseable topology becomes valuable.
+
 ## Differentiation & prior art
 
 **Neighbors to clear before publishing:** Architecture Decision Records (ADRs), runbooks, "living documentation," and the "Memory Bank" pattern for coding agents.
@@ -180,6 +198,61 @@ Smallest shippable slice:
 Defer: `/sync` audit, tombstone tooling, scoped/bug-context briefing modes, bug→runbook capture.
 
 ---
+
+## Future direction — naming-first coding (speculative)
+
+So far the Lexicon is **retrospective**: the AI coins handles for what already exists. The inversion: the **user coins a handle for what they want to add** — *"a Bouncer that turns away requests arriving too fast"* — and that Lexicon entry becomes the *seed/spec*; the AI implements toward the named intent. The Lexicon flips from a *map* into a **design surface** — the same artifact is both forward (name + intent → code) and backward (name → code + history).
+
+**Honest lineage:** this is close to Domain-Driven Design's **ubiquitous language** (Evans) and readme-driven development — naming/vocabulary-first design is a respected, *known* practice, not new to the field. The potentially fresh part is **democratization**: ubiquitous-language design has always required senior design discipline most teams can't sustain; an AI that translates name + intent → implementation and keeps the Lexicon live and bidirectional could give a beginner that paradigm *without the theory*. The place to look for differentiation (and for any IP) is the AI-mediated, self-maintaining, bidirectional **Lexicon-as-design-surface** — not "naming-first" in the abstract. Clear the DDD prior art before any claims.
+
+## Distribution — multi-tool packaging (Claude Code · Codex · Cursor)
+
+Goal: ship for all three, mirroring InventorLab's proven multi-tool structure.
+
+**Key reality: the core is portable; the automation degrades gracefully.** Vibe Scribe is mostly *instructions + markdown templates*, which every tool's instruction surface can carry. The three tools expose very different automation/command capabilities, so the *experience* varies — but the *artifact* does not.
+
+**Architecture: one shared core + thin per-tool adapters.**
+- **Shared core** (tool-agnostic markdown): write-path protocol + the six disciplines + Lexicon rules + diagram repertoire + doc/template scaffolds + briefing/sync behavior. The bulk of Vibe Scribe; identical everywhere.
+- **Adapters** install the core into each tool's instruction surface and wire up whatever automation it supports:
+
+| Capability | Claude Code | Cursor | Codex |
+|---|---|---|---|
+| Instruction surface | `CLAUDE.md` + plugin | `.cursor/rules/*.mdc` (Always) | `AGENTS.md` |
+| Automatic write-path | ✅ `Stop` hook (enforced) | ⚠️ instructed only | ⚠️ instructed only |
+| `/briefing`, `/sync` commands | ✅ real Skills / slash commands | ⚠️ taught convention (typed phrase) | ⚠️ taught convention |
+| Fidelity | **reference (full)** | best-effort | best-effort |
+
+Claude Code is the **reference implementation** (only one with hooks + slash commands → automatic write-path + first-class read-path). Cursor and Codex get an *instructed* version: the model is told to maintain the docs and to recognize "briefing"/"sync" — works, but relies on instruction-following, not a deterministic hook.
+
+**Silver lining (on-brand):** the artifact — the two docs + Lexicon — is **100% portable** regardless of tool (plain markdown in the repo). Switch tools and your Vibe Scribe context comes with you. Not-lock-in extends to the tooling itself.
+
+**Concrete layout — mirrors InventorLab's validated structure (single npm package, shared core, thin adapters):**
+```
+vibe-scribe/
+  package.json          # npm; files[] ships everything; postinstall = banner
+  PROTOCOL.md           # SHARED CORE: write-path protocol, the 6 disciplines, Lexicon rules, diagram repertoire
+  DESIGN.md             # this doc
+  README.md  LICENSE
+  skills/               # SHARED verbatim across all three tools (every manifest points at ./skills/)
+    briefing/SKILL.md
+    sync/SKILL.md
+    vibe-scribe-setup/SKILL.md   # writes AGENTS.md (+ CLAUDE.md @import) into the user's project; scaffolds templates
+  templates/
+    dev-journal.md        # empty journal scaffold
+    system-overview.md    # empty overview scaffold (incl. Lexicon section)
+  hooks/hooks.json        # Claude: Stop hook → automatic write-path; SessionStart → earned-briefing offer
+  scripts/                # write-path / firstrun helpers
+  .claude-plugin/         # plugin.json + marketplace.json
+  .codex-plugin/          # plugin.json  (→ skills, hooks)
+  .cursor-plugin/         # plugin.json  (→ skills, rules, hooks)
+  .cursor/rules/vibe-scribe.mdc   # alwaysApply:true → @AGENTS.md + protocol (Cursor's "always-on")
+```
+
+**Instruction strategy (from InventorLab):** the setup skill writes ONE `AGENTS.md` into the user's project as the canonical instruction surface; `CLAUDE.md` `@import`s it; the Cursor `.mdc` rule (`alwaysApply:true`) references `@AGENTS.md`. The platform-specific surface is tiny — 3 manifests + 1 Cursor rule + hook registrations. Everything else (skills, templates, `PROTOCOL.md`, `AGENTS.md`) is shared.
+
+**Simpler than InventorLab:** no MCP server (Vibe Scribe is docs + skills; no external tool calls). **Vibe-Scribe-specific upgrade:** InventorLab's Claude hook is `SessionStart` (firstrun); Vibe Scribe adds a **`Stop` hook** — the thing that makes the write-path automatic.
+
+*Verify each tool's exact mechanism at build time — Cursor rules format and Codex/AGENTS.md conventions evolve. Build order: Claude Code first (reference), then port the core down to Cursor/Codex adapters.*
 
 ## Provenance & IP note
 
