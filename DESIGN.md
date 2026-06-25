@@ -165,6 +165,16 @@ Every fixed bug becomes a runbook entry; the docs compound — after a while the
 - **Keep it text-native** — no render pipeline (the patent-figure JSON/editor machinery does *not* belong here). Plain markdown is the ethos.
 - *Deferred, not rejected:* Mermaid-as-stored-format + diagrams-as-dependency-data. Considered and set aside for simplicity; revisit if systems routinely outgrow ASCII or if machine-parseable topology becomes valuable.
 
+## Relationships — richer vocabulary, not a knowledge graph
+
+**Considered and declined (2026-06-24): a formal component knowledge graph** (typed nodes + edges as a machine-readable graph file). Low ROI for Vibe Scribe:
+
+- The relationships are **already captured** by the dependency map + Lexicon — a graph file would just duplicate them.
+- It fights the core principles: a JSON graph is **machine-facing** (vs. human-first plain markdown); a dense typed graph is **hard to keep verified** (and a confidently-wrong graph is *worse* than none — the very failure mode Vibe Scribe exists to prevent); and it's a whole new artifact (vs. minimalism).
+- **Why it's low-ROI here but high-ROI in Kai:** Kai's graph *is* the product — the only representation of intellectual relationships (ideas / hypotheses / arguments). A Vibe Scribe component graph would be a **lossy secondary copy of what the code already encodes precisely**; real static-analysis tools extract that structural graph automatically, always-current, for free. Vibe Scribe's value-add is the *why* + plain-language understanding, **not** the graph.
+
+**Chosen instead: enrich the relationship vocabulary in the dependency map.** Edges carry a short **plain-language relationship**, not a bare arrow — *what kind* of dependency. Descriptive and open, **not a rigid ontology** (that's the knowledge graph creeping back in). Common labels (not exhaustive): *calls / sends to · owns the data for / reads from / writes to · triggers / notifies · depends on / requires · wraps / extends · replaces / supersedes* (the last doubles as the tombstone successor link). Roughly 90% of a knowledge graph's value at ~5% of the cost, and it stays human-readable.
+
 ## Differentiation & prior art
 
 **Neighbors to clear before publishing:** Architecture Decision Records (ADRs), runbooks, "living documentation," and the "Memory Bank" pattern for coding agents.

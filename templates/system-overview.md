@@ -20,7 +20,16 @@
 
 ## Dependency map
 
-<!-- ASCII topology: what's wired to what. "If X is down, you lose Y." -->
+<!-- ASCII topology: what's wired to what. "If X is down, you lose Y."
+     Label each edge with a short plain-language relationship, not a bare arrow, e.g.:
+       Client ──(calls)──▶ The Gatekeeper ──(hands off to)──▶ The Concierge
+                                                  │
+                                          (owns the data in)
+                                                  ▼
+                                              The Vault
+     Common labels: calls / sends to · owns the data for / reads from / writes to · triggers /
+     notifies · depends on / requires · wraps / extends · replaces / supersedes. -->
+
 
 ## Runbook
 

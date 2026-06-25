@@ -40,7 +40,7 @@ The Gatekeeper  →  src/auth/                              (anchor: the real ar
 
 A repertoire, not a checklist — pick the right one; never generate all four for everything. Always pair a diagram with a plain-language explanation. Boxes are Lexicon handles.
 
-1. **Structure / topology** — what's wired to what. _(workhorse)_
+1. **Structure / topology** — what's wired to what. _(workhorse)_ **Label each edge with a short plain-language relationship** (*calls · owns the data for · triggers · replaces · …*), not a bare arrow — descriptive and open, not a rigid ontology. (A formal knowledge graph was considered and declined — see `DESIGN.md` → Relationships.)
 2. **Logic / flow (flowchart)** — control flow through a method: steps, decisions, branches. _(workhorse; most debugging-relevant)_
 3. **Swimlane** — a process partitioned by actor/owner, showing handoffs. _(situational; fall back to owner-annotated flow past ~3–4 lanes)_
 4. **Conceptual framework** — mixed-concern big-picture (architecture + logic + hardware/infra); the orientation diagram. _(situational; least verifiable — use sparingly)_

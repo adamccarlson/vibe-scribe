@@ -41,7 +41,9 @@ with a successor pointer), not deletions.
 
 When structure or flow matters, *show* an ASCII diagram, paired with a one-line plain explanation, with
 nodes named as Lexicon handles. Repertoire: **topology · logic/flowchart · swimlane · conceptual
-framework**. Be selective, and don't fabricate connections that aren't in the map.
+framework**. Be selective, and don't fabricate connections that aren't in the map. In dependency
+diagrams, **label each edge with a short plain-language relationship** (*calls · owns the data for ·
+triggers · replaces · …*), not a bare arrow.
 
 ### Briefings
 
