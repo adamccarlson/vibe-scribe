@@ -218,11 +218,11 @@ Goal: ship for all three, mirroring InventorLab's proven multi-tool structure.
 | Capability | Claude Code | Cursor | Codex |
 |---|---|---|---|
 | Instruction surface | `CLAUDE.md` + plugin | `.cursor/rules/*.mdc` (Always) | `AGENTS.md` |
-| Automatic write-path | ✅ `Stop` hook (enforced) | ⚠️ instructed only | ⚠️ instructed only |
-| `/briefing`, `/sync` commands | ✅ real Skills / slash commands | ⚠️ taught convention (typed phrase) | ⚠️ taught convention |
-| Fidelity | **reference (full)** | best-effort | best-effort |
+| Automatic write-path | ✅ `Stop` hook (`decision:block`) | ✅ `stop` hook (`followup_message`) — *verified + wired* | ⚠️ instructed only |
+| `/briefing`, `/sync` commands | ✅ Skills / slash commands | ✅ Skills (shared `skills/`) | ✅ Skills (by name/description) |
+| Fidelity | **reference (full)** | **near-full** (enforced backstop + skills) | instructed (no backstop) |
 
-Claude Code is the **reference implementation** (only one with hooks + slash commands → automatic write-path + first-class read-path). Cursor and Codex get an *instructed* version: the model is told to maintain the docs and to recognize "briefing"/"sync" — works, but relies on instruction-following, not a deterministic hook.
+Claude Code is the reference implementation. **Cursor reaches near-full fidelity** — its `stop` hook returns `followup_message` (auto-submitted as the next user message), the deterministic equivalent of Claude's `decision:block`, so the safety net is real there too (loop-safe via `loop_count` + `loop_limit`). Only **Codex** is instructed-only (no stop-hook equivalent): the model is told to maintain the docs via `AGENTS.md`, which works but relies on instruction-following rather than a deterministic hook.
 
 **Silver lining (on-brand):** the artifact — the two docs + Lexicon — is **100% portable** regardless of tool (plain markdown in the repo). Switch tools and your Vibe Scribe context comes with you. Not-lock-in extends to the tooling itself.
 
@@ -252,7 +252,7 @@ vibe-scribe/
 
 **Simpler than InventorLab:** no MCP server (Vibe Scribe is docs + skills; no external tool calls). **Vibe-Scribe-specific upgrade:** InventorLab's Claude hook is `SessionStart` (firstrun); Vibe Scribe adds a **`Stop` hook** — the thing that makes the write-path automatic.
 
-*Verify each tool's exact mechanism at build time — Cursor rules format and Codex/AGENTS.md conventions evolve. Build order: Claude Code first (reference), then port the core down to Cursor/Codex adapters.*
+*Build order: Claude Code reference ✅ → Cursor adapter ✅ (stop-hook backstop verified against Cursor docs + tested; shared git gate in `scripts/lib/changes.js`) → Codex adapter (instruction-only) remaining.*
 
 ## Provenance & IP note
 
