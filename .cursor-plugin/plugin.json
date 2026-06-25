@@ -6,8 +6,8 @@
     "name": "Adam Carlson",
     "email": "me@adamcarlson.io"
   },
-  "homepage": "https://github.com/adam-inventorlab/vibe-scribe",
-  "repository": "https://github.com/adam-inventorlab/vibe-scribe",
+  "homepage": "https://github.com/adamccarlson/vibe-scribe",
+  "repository": "https://github.com/adamccarlson/vibe-scribe",
   "license": "MIT",
   "keywords": [
     "agent-memory",
