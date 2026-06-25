@@ -182,7 +182,7 @@ Every fixed bug becomes a runbook entry; the docs compound — after a while the
 ## Open questions / decisions still to make
 
 - [ ] Final wording of the lead hook ("Never lose your place" is the current front-runner).
-- [ ] Exact write-path mechanism in Claude Code: a `Stop` hook, `CLAUDE.md` instructions, or both?
+- [x] **Write-path mechanism — decided & implemented:** instruction-first (portable) + a gated `Stop`-hook *backstop* on Claude Code (`scripts/write-path.js`) that fires only when source changed this session but the docs didn't. Block-by-default with a `.vibe-scribe.json` `enforcement` knob (`block`/`nudge`/`off`); baseline recorded at `SessionStart`. Fail-open, loop-safe, never commits.
 - [ ] Concrete heuristics/thresholds for the "earned" briefing trigger.
 - [ ] Lexicon as the overview's front-door / name-indexed TOC, or a dedicated section?
 - [ ] What the empty scaffolds look like (journal + overview + Lexicon templates).

@@ -52,8 +52,20 @@ Selectivity for logic diagrams: only non-obvious control flow. Logic diagrams dr
 - **`/briefing`** — human-first synthesis of the overview (+ recent journal), in plain language and the user's coined vocabulary. Doubles as an AI session-start refresher (synthesis + a confirmation handshake). _Trigger:_ **earned** (high change-volume since last session, a stale section, or a session that ended mid-task), always available on demand. Modes _(TODO: finalize):_ scoped (`/briefing <component>`), freshness-aware, bug-context.
 - **`/sync`** — re-audit the overview + Lexicon against reality; flag drift; bump `Last verified`; verify each handle's anchor still resolves.
 
+## Write-path mechanism — how the docs actually get updated
+
+**Primary (all tools): instruction.** The `AGENTS.md` protocol tells the agent to update both docs at the end of a chunk of work that made a real change. Portable; works everywhere.
+
+**Backstop (Claude Code now; Cursor likely via its 1.7+ stop hooks — verify at build): a quiet safety net.** A `Stop` hook (`scripts/write-path.js`) checks: did this session change source files but leave the docs untouched? If so, it asks the agent to update them before stopping. Otherwise it stays silent — if the docs were already updated (the normal case), the backstop never fires.
+
+- Loop-safe via `stop_hook_active`; **fail-open** (any error → let the session end).
+- "This session's changes" = current git changes minus a baseline recorded at `SessionStart` (`scripts/session-start.js`). Not a git repo → backstop stays silent (instruction-only).
+- Updates the working tree only; **never commits** (docs travel with your code change).
+
+**Enforcement knob** — `.vibe-scribe.json` → `"enforcement"`: `block` (default: pause and update before stopping), `nudge` (remind, don't block), or `off`. "Strict, with an off-switch."
+
 ## Open items _(TODO)_
 
-- [ ] Write-path mechanism per tool (Claude `Stop` hook vs. instruction; see `DESIGN.md` → Distribution).
-- [ ] Concrete heuristics for the "earned" briefing trigger.
-- [ ] Final scaffolds wording (see `templates/`).
+- [ ] Concrete heuristics for the "earned" briefing trigger (`scripts/session-start.js`).
+- [ ] Skill bodies (`/briefing`, `/sync`) + `vibe-scribe-setup` finalization.
+- [ ] Verify the Cursor 1.7+ stop-hook (`followup_message`) path for the backstop on Cursor.
