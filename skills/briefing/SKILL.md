@@ -67,7 +67,9 @@ briefing, not a wall of text.
   Not a changelog dump; a "here's what's been happening."
 - **Intent check (esp. just after a change):** when the briefing follows a significant change, frame it
   as a verification of intent — *"here's what we just built; does it match what you had in mind?"* — and
-  invite the user to confirm or correct. This is the moment human and AI re-align on the new state.
+  invite the user to confirm or correct. This is the moment human and AI re-align on the new state. When
+  this briefing is *auto-delivered* (`briefingOnChange: auto`), keep it to a short recap — the intent-check
+  question plus 2-3 lines — and offer the full briefing on request.
 
 ### Bug-context — `/briefing <error or symptom>`
 
@@ -106,8 +108,12 @@ say that plainly and offer to look at the code directly or run `/sync`.
 
 ## Principles
 
-- **Plain language.** No jargon, no internal labels, no file dumps. Write for someone who doesn't already
-  know the system. (If you catch yourself explaining a mechanism in three clauses, simplify.)
+- **Register-adapted language.** Read `.vibe-scribe.json` → `audience` (beginner / intermediate / advanced)
+  and adapt the *vocabulary and detail*, not the facts: beginners get plain language, metaphor, and the
+  coined handles foregrounded; advanced users get precise technical terms and the real anchors (`src/auth/`,
+  the actual mechanism) with less hand-holding. This is read-time translation over the *same* canonical
+  docs — never fork the docs by audience. Default to plain language if `audience` is unset. It's register,
+  not tone: never jargon-dump or talk down. No internal labels or raw file contents at any level.
 - **Speak in handles.** Use the project's coined names — it teaches the vocabulary through use.
 - **Synthesize from the docs; don't fabricate.** Report what the map says. Unknown ≠ guess.
 - **Diagrams are ASCII and always explained.** Show the picture, then say what it means in one line.

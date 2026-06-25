@@ -88,15 +88,23 @@ For each of `dev-journal.md` and `system-overview.md`: **if it already exists, l
 in `PROTOCOL.md` (journal = header + format note; overview = What this is / Conceptual framework /
 Component catalog / Dependency map / Runbook / Lexicon{Live, Retired}).
 
-### Step 5 — Create the config (off-switch)
+### Step 5 — Set preferences and create the config
 
-If `.vibe-scribe.json` is absent, create it with the default:
+Ask the user one quick question: their familiarity with software development — **beginner**, **intermediate**, or **advanced**. Explain that it sets how the system gets *explained back* to them (plain language and metaphor for beginners; precise technical vocabulary for advanced) — it does **not** change the underlying docs, only how they're rendered to the reader.
+
+Then create `.vibe-scribe.json` if absent:
 
 ```json
-{ "enforcement": "block" }
+{
+  "audience": "<beginner|intermediate|advanced>",
+  "enforcement": "block"
+}
 ```
 
-Mention to the user that this is where they dial the safety net down (`nudge`) or off (`off`).
+Tell the user this file tunes Vibe Scribe and is editable anytime:
+- `audience` — how things are explained back (register only; the shared docs stay canonical).
+- `enforcement` — the doc-update safety net: `block` (default), `nudge`, or `off`.
+- `briefingOnChange` — `off` / `offer` / `auto` (left out here so it follows the per-host default: `offer` where an interactive prompt exists, `auto` otherwise).
 
 ### Step 6 — Seed the map (the important step)
 

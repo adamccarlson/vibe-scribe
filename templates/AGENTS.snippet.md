@@ -51,11 +51,25 @@ On request — or when a lot has changed — give a **briefing**: a plain-langua
 system is, what changed recently, and what's healthy, in the project's own handles, with diagrams where
 they help. Flag any stale (old `Last verified`) section as lower-confidence.
 
-After a **significant change** to the system (or a run of small ones that add up to one), proactively
-**offer** a briefing, framed as an **intent check** — *"want a briefing on the updated system, to confirm
-it matches what you had in mind?"* Where your host supports an interactive selection prompt, present it as
-a yes/no choice so it isn't missed; otherwise make it a clear one-line offer. Be sparing: only after a
-genuinely significant change, make it dismissible, and don't re-ask if the user just declined.
+Adapt the **register** of any briefing to `.vibe-scribe.json` → `audience` (beginner / intermediate /
+advanced): plain language, metaphor, and the coined handles for beginners; precise technical vocabulary and
+the real anchors for advanced. This is read-time translation over the *same* canonical docs — never fork
+them by audience, and it's register, not tone (don't talk down).
+
+After a **significant change** to the system (or a run of small ones that add up to one), bring the user a
+briefing framed as an **intent check** — *"does this match what you had in mind?"* Follow
+`.vibe-scribe.json` → `briefingOnChange`:
+
+- `offer` — present a yes/no **selection prompt** where your host supports one (e.g. Claude Code's
+  question tool); a clear one-line offer otherwise.
+- `auto` — **automatically give a short recap**: lead with the intent-check question + 2-3 lines, and
+  offer the **full** briefing on request. (Sensible default on hosts without an interactive prompt, like
+  Cursor and Codex, where a plain offer is easy to miss.)
+- `off` — do nothing.
+
+If `briefingOnChange` is unset, default to `offer` where you have an interactive prompt and `auto` (short)
+where you don't. Be sparing in every mode: only after a genuinely significant change, and don't repeat
+after a decline.
 
 ### Keeping the docs current
 
