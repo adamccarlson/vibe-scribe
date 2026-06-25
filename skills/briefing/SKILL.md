@@ -65,6 +65,9 @@ briefing, not a wall of text.
 - Read the recent `dev-journal.md` entries (filter by timeframe if given).
 - Narrate them as a short, plain-language story — what moved and why — naming the handles involved.
   Not a changelog dump; a "here's what's been happening."
+- **Intent check (esp. just after a change):** when the briefing follows a significant change, frame it
+  as a verification of intent — *"here's what we just built; does it match what you had in mind?"* — and
+  invite the user to confirm or correct. This is the moment human and AI re-align on the new state.
 
 ### Bug-context — `/briefing <error or symptom>`
 

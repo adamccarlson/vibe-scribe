@@ -1,3 +1,14 @@
 node_modules/
 .DS_Store
 *.log
+
+# build artifacts
+*.zip
+
+# LaTeX aux
+*.aux
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc

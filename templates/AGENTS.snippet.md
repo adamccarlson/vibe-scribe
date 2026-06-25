@@ -51,6 +51,12 @@ On request — or when a lot has changed — give a **briefing**: a plain-langua
 system is, what changed recently, and what's healthy, in the project's own handles, with diagrams where
 they help. Flag any stale (old `Last verified`) section as lower-confidence.
 
+After a **significant change** to the system (or a run of small ones that add up to one), proactively
+**offer** a briefing, framed as an **intent check** — *"want a briefing on the updated system, to confirm
+it matches what you had in mind?"* Where your host supports an interactive selection prompt, present it as
+a yes/no choice so it isn't missed; otherwise make it a clear one-line offer. Be sparing: only after a
+genuinely significant change, make it dismissible, and don't re-ask if the user just declined.
+
 ### Keeping the docs current
 
 At the end of work, **if you changed code but haven't updated these docs, update them before finishing.**

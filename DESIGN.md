@@ -241,6 +241,18 @@ So far the Lexicon is **retrospective**: the AI coins handles for what already e
 
 **Honest lineage:** this is close to Domain-Driven Design's **ubiquitous language** (Evans) and readme-driven development — naming/vocabulary-first design is a respected, *known* practice, not new to the field. The potentially fresh part is **democratization**: ubiquitous-language design has always required senior design discipline most teams can't sustain; an AI that translates name + intent → implementation and keeps the Lexicon live and bidirectional could give a beginner that paradigm *without the theory*. The place to look for differentiation (and for any IP) is the AI-mediated, self-maintaining, bidirectional **Lexicon-as-design-surface** — not "naming-first" in the abstract. Clear the DDD prior art before any claims.
 
+## Roadmap — v0.2: Proactive intent-check briefings
+
+v0.1 ships as the working baseline (tagged + published). The headline addition for **v0.2**:
+
+**Proactive intent-check briefings.** After a *significant* change to the system — or a run of small ones that add up to one — the assistant proactively **offers** a briefing, framed as an **intent check**: *"That was a sizeable change. Want a briefing on the updated system — a chance to confirm it matches what you had in mind?"* This closes the intent → implementation → verification loop that vibe coders rarely close on their own, and it *is* the **confirmation handshake at the change boundary** — the concrete mechanism by which human and AI keep a shared model aligned as the system evolves. It also has a genuine **reward** dimension: after a neat upgrade, a briefing is a chance to step back and admire what you built (which is part of why people will opt in rather than mute it).
+
+- **Presented as a selection prompt, not buried in prose.** Where the host exposes an interactive prompt primitive, present the offer as a **yes/no selection** so it can't be glazed over. *Claude Code* exposes such a primitive the assistant can invoke; *Cursor* and *Codex* support is **to be verified** at build time — degrade to a clear, single-line text offer where a structured prompt isn't available (graceful degradation, same posture as the rest of the plugin).
+- **Mechanism:** pure instruction-layer — the assistant judges significance in-context and offers, using the host's prompt primitive. No new hook or script. (Cheaper than the deferred *session-start* "earned" trigger, which needs script-side heuristics — here the assistant already knows it just made a significant change.)
+- **Restraint (make-or-break):** earned, not eager. Only after a genuinely significant change or a real accumulation; one dismissible offer; don't re-ask after a decline. Even a victory lap gets old if you throw one after every commit.
+
+*Still deferred to later versions: session-start "earned" auto-trigger (script-based), bug→runbook auto-capture, Mermaid/diagrams-as-data, naming-first design surface.*
+
 ## Distribution — multi-tool packaging (Claude Code · Codex · Cursor)
 
 Goal: ship for all three, mirroring InventorLab's proven multi-tool structure.

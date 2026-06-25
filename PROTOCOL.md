@@ -50,6 +50,7 @@ Selectivity for logic diagrams: only non-obvious control flow. Logic diagrams dr
 ## Read-path
 
 - **`/briefing`** — human-first synthesis of the overview (+ recent journal), in plain language and the user's coined vocabulary. Doubles as an AI session-start refresher (synthesis + a confirmation handshake). _Trigger:_ **earned** (high change-volume since last session, a stale section, or a session that ended mid-task), always available on demand. Modes _(TODO: finalize):_ scoped (`/briefing <component>`), freshness-aware, bug-context.
+- **Proactive intent-check offer (v0.2):** after a *significant* change (or a run of small ones), proactively **offer** a briefing framed as an intent check — *"want a briefing on the updated system, to confirm it matches what you had in mind?"* Present it as an interactive **yes/no selection** where the host supports one (so it isn't missed), a clear one-line offer otherwise. Earned and dismissible; don't re-ask after a decline.
 - **`/sync`** — re-audit the overview + Lexicon against reality; flag drift; bump `Last verified`; verify each handle's anchor still resolves.
 
 ## Write-path mechanism — how the docs actually get updated
